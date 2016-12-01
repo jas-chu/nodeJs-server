@@ -6,13 +6,10 @@ var server = http.createServer();
 
 server.on("request", function(req, res){
 	var urlData = url.parse(req.url, true);
-	var pathname = "public" + urlData.pathname;
-	urlData.query['path'];
+	var pathname = urlData.pathname;
+	//var pathname = (window.location.pathname+window.location.search).substr(1);
+	//urlData.query['path'];
 	res.end(JSON.stringify(pathname));
-
-	//var f=new Date();
-	//cad=f.getHours()+":"+f.getMinutes(); 
-	//res.end(cad);
 });
 
 server.listen(process.env.PORT || 3000);

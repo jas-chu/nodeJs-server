@@ -7,23 +7,16 @@ var server = http.createServer();
 server.on("request", function(req, res){
 	var urlData = url.parse(req.url, true);
 	var pathname = urlData.pathname;
-	//var pathname = (window.location.pathname+window.location.search).substr(1);
-	//urlData.query['path'];
-	res.end(JSON.stringify(pathname));
+	fs.exists(pathname, function(){
+		fs.readFile("./public" + pathname, function(){
+			console.log("readfile");
+		})
+	});
+	res.end(JSON.stringify("./public" + pathname));
 });
 
 server.listen(process.env.PORT || 3000);
 
-
-function fileExists(path) {
-  try {
-    if(fs.accessSync(path)) {
-      return true;
-    }
-  } catch (e) {
-    return false;
-  }
-}
 
 //fs.exists(path, callback)
 //fs.readFile(path, callback)

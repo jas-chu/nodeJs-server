@@ -7,12 +7,14 @@ var server = http.createServer();
 server.on("request", function(req, res){
 	var urlData = url.parse(req.url, true);
 	var pathname = urlData.pathname;
-	fs.exists(pathname, function(){
-		fs.readFile("./public" + pathname, function(){
-			console.log("readfile");
-		})
+	fs.exists(pathname, function(exists){
+		if (exists) {
+			fs.readFile("public" + pathname, function(err, data){
+				res.end(data);
+			})
+		}
 	});
-	res.end(JSON.stringify("./public" + pathname));
+	res.end(JSON.stringify("public" + pathname));
 });
 
 server.listen(process.env.PORT || 3000);

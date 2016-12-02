@@ -20,7 +20,7 @@ server.on("request", function(req, res){
 			})
 		} else {
 			res.writeHead(404);
-			res.end("No existe!");
+			res.end("No existe!" + filePath);
 		}
 	});
 });

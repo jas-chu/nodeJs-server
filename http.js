@@ -7,21 +7,26 @@ var server = http.createServer();
 server.on("request", function(req, res){
 	var urlData = url.parse(req.url, true);
 	var pathname = urlData.pathname;
-	fs.exists(pathname, function(exists){
+	var filePath = "public" + pathname;
+	fs.exists(filePath, function(exists){
 		if (exists) {
 			fs.readFile("public" + pathname, function(err, data){
-				res.end(data);
+				if (err){
+					res.writeHead(500);
+					res.end("Ha ocurrido algo malo");
+				} else {
+					res.end(data);
+				}
 			})
+		} else {
+			res.writeHead(404);
+			res.end("No existe!");
 		}
 	});
-	res.end(JSON.stringify("public" + pathname));
 });
 
 server.listen(process.env.PORT || 3000);
 
-
-//fs.exists(path, callback)
-//fs.readFile(path, callback)
 
 //lee un pathname desde la urlData busca un fichero con esa ruta dentro de ./public
 //si existe, lo sirve

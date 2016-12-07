@@ -7,13 +7,16 @@ var server = http.createServer();
 server.on("request", function(req, res){
 	var urlData = url.parse(req.url, true);
 	var pathname = urlData.pathname;
+	if (pathname === '/'){
+		pathname = '/index.html';
+	}
 	var filePath = "public" + pathname;
 	fs.exists(filePath, function(exists){
 		if (exists) {
 			fs.readFile("public" + pathname, function(err, data){
 				if (err){
 					res.writeHead(500);
-					res.end("Ha ocurrido algo malo");
+					res.end("No existe el path: " + pathname);
 				} else {
 					res.end(data);
 				}
